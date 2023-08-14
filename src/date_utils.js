@@ -768,3 +768,19 @@ export function getYearsPeriod(
   const startPeriod = endPeriod - (yearItemNumber - 1);
   return { startPeriod, endPeriod };
 }
+
+export function getRandomDatesByEpoch() {
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
+  const numDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const randomDates = [];
+
+  for (let i = 0; i < 5; i++) {
+    const randomDay = Math.floor(Math.random() * numDaysInMonth) + 1;
+    const randomDate = new Date(currentYear, currentMonth, randomDay).getTime();
+    randomDates.push(randomDate);
+  }
+
+  return randomDates;
+}
