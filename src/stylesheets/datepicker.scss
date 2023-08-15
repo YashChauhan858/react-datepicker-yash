@@ -681,3 +681,7 @@
 .show-orange-bg {
   background-color: orange;
 }
+
+.show-orange-bg.react-datepicker__day--selected {
+  background-color: $datepicker__selected-color;
+}
