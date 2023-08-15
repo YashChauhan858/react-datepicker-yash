@@ -15,7 +15,6 @@ import {
   isAfter,
   getDayOfWeekCode,
   formatDate,
-  getOrdinal,
   formatDateByKey,
 } from "./date_utils";
 
@@ -24,7 +23,7 @@ const listOfHolidays = {
   "8/4/2023": "Holiday2",
   "8/8/2023": "Holiday3",
   "8/13/2023": "Holiday4",
-  "8/20/2023": "Holiday4",
+  "8/20/2023": "Holiday5",
 };
 
 export default class Day extends React.Component {
@@ -357,10 +356,8 @@ export default class Day extends React.Component {
 
   render = () => {
     const dateObject = this.renderDayContents();
-    const dateObjectEpoch = dateObject.getTime();
     const dateKeyMatcher = formatDateByKey(dateObject);
     const date = getDate(dateObject);
-    const year = new Date(dateObjectEpoch).getFullYear();
     const isPresent = dateKeyMatcher in listOfHolidays;
 
     return (
@@ -369,7 +366,7 @@ export default class Day extends React.Component {
         className={`${this.getClassNames(this.props.day)} ${
           isPresent ? "show-orange-bg" : ""
         }`}
-        title={isPresent ? `${getOrdinal(date)} of ${year}` : ""}
+        title={isPresent ? `${listOfHolidays[dateKeyMatcher]}` : ""}
         onKeyDown={this.handleOnKeyDown}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
