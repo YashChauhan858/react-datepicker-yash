@@ -15,6 +15,7 @@ import {
   isAfter,
   getDayOfWeekCode,
   formatDate,
+  getRandomDatesByEpoch,
 } from "./date_utils";
 
 export default class Day extends React.Component {
@@ -52,6 +53,13 @@ export default class Day extends React.Component {
       PropTypes.shape({ locale: PropTypes.object }),
     ]),
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      randomDateEpoch: getRandomDatesByEpoch(),
+    };
+  }
 
   componentDidMount() {
     this.handleFocusDay();
@@ -342,24 +350,34 @@ export default class Day extends React.Component {
       return null;
     return this.props.renderDayContents
       ? this.props.renderDayContents(getDate(this.props.day), this.props.day)
-      : getDate(this.props.day);
+      : this.props.day;
   };
 
-  render = () => (
-    <div
-      ref={this.dayEl}
-      className={this.getClassNames(this.props.day)}
-      onKeyDown={this.handleOnKeyDown}
-      onClick={this.handleClick}
-      onMouseEnter={this.handleMouseEnter}
-      tabIndex={this.getTabIndex()}
-      aria-label={this.getAriaLabel()}
-      role="option"
-      aria-disabled={this.isDisabled()}
-      aria-current={this.isCurrentDay() ? "date" : undefined}
-      aria-selected={this.isSelected() || this.isInRange()}
-    >
-      {this.renderDayContents()}
-    </div>
-  );
+  render = () => {
+    const { randomDateEpoch } = this.state;
+    const dateObject = this.renderDayContents();
+    const dateObjectEpoch = dateObject.getTime();
+    const date = getDate(dateObject);
+    const isRandomDate = randomDateEpoch.includes(dateObjectEpoch);
+
+    return (
+      <div
+        ref={this.dayEl}
+        className={`${this.getClassNames(this.props.day)} ${
+          isRandomDate ? "show-orange-bg" : ""
+        }`}
+        onKeyDown={this.handleOnKeyDown}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        tabIndex={this.getTabIndex()}
+        aria-label={this.getAriaLabel()}
+        role="option"
+        aria-disabled={this.isDisabled()}
+        aria-current={this.isCurrentDay() ? "date" : undefined}
+        aria-selected={this.isSelected() || this.isInRange()}
+      >
+        {date}
+      </div>
+    );
+  };
 }
