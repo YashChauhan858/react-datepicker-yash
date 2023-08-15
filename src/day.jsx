@@ -18,6 +18,8 @@ import {
   getRandomDatesByEpoch,
 } from "./date_utils";
 
+const randomDateEpoch = getRandomDatesByEpoch();
+
 export default class Day extends React.Component {
   static propTypes = {
     ariaLabelPrefixWhenEnabled: PropTypes.string,
@@ -53,13 +55,6 @@ export default class Day extends React.Component {
       PropTypes.shape({ locale: PropTypes.object }),
     ]),
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      randomDateEpoch: getRandomDatesByEpoch(),
-    };
-  }
 
   componentDidMount() {
     this.handleFocusDay();
@@ -354,10 +349,10 @@ export default class Day extends React.Component {
   };
 
   render = () => {
-    const { randomDateEpoch } = this.state;
     const dateObject = this.renderDayContents();
     const dateObjectEpoch = dateObject.getTime();
     const date = getDate(dateObject);
+    const year = new Date(dateObjectEpoch).getFullYear();
     const isRandomDate = randomDateEpoch.includes(dateObjectEpoch);
 
     return (
@@ -366,6 +361,7 @@ export default class Day extends React.Component {
         className={`${this.getClassNames(this.props.day)} ${
           isRandomDate ? "show-orange-bg" : ""
         }`}
+        title={isRandomDate ? `${date}th of ${year}` : ""}
         onKeyDown={this.handleOnKeyDown}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
