@@ -769,22 +769,6 @@ export function getYearsPeriod(
   return { startPeriod, endPeriod };
 }
 
-export function getRandomDatesByEpoch() {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth();
-  const numDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const randomDates = [];
-
-  for (let i = 0; i < 5; i++) {
-    const randomDay = Math.floor(Math.random() * numDaysInMonth) + 1;
-    const randomDate = new Date(currentYear, currentMonth, randomDay).getTime();
-    randomDates.push(randomDate);
-  }
-
-  return randomDates;
-}
-
 export function getOrdinal(number) {
   if (typeof number !== "number" || isNaN(number)) {
     return "Invalid input";
@@ -807,4 +791,11 @@ export function getOrdinal(number) {
     default:
       return number + "th";
   }
+}
+
+export function formatDateByKey(date) {
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}/${day}/${year}`;
 }
