@@ -16,6 +16,7 @@ import {
   getDayOfWeekCode,
   formatDate,
   getRandomDatesByEpoch,
+  getOrdinal,
 } from "./date_utils";
 
 const randomDateEpoch = getRandomDatesByEpoch();
@@ -360,8 +361,8 @@ export default class Day extends React.Component {
         ref={this.dayEl}
         className={`${this.getClassNames(this.props.day)} ${
           isRandomDate ? "show-orange-bg" : ""
-        }`}
-        title={isRandomDate ? `${date}th of ${year}` : ""}
+        }`} 
+        title={isRandomDate ? `${getOrdinal(date)} of ${year}` : ""}
         onKeyDown={this.handleOnKeyDown}
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}

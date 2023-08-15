@@ -784,3 +784,27 @@ export function getRandomDatesByEpoch() {
 
   return randomDates;
 }
+
+export function getOrdinal(number) {
+  if (typeof number !== "number" || isNaN(number)) {
+    return "Invalid input";
+  }
+
+  const lastDigit = number % 10;
+  const secondLastDigit = Math.floor(number / 10) % 10;
+
+  if (secondLastDigit === 1) {
+    return number + "th";
+  }
+
+  switch (lastDigit) {
+    case 1:
+      return number + "st";
+    case 2:
+      return number + "nd";
+    case 3:
+      return number + "rd";
+    default:
+      return number + "th";
+  }
+}
